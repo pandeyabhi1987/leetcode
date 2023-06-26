@@ -1,10 +1,10 @@
 public class validIPv4 {
-    public static String validIPAddress(String IP) {
-        String[] ipv4 = IP.split("\\.", -1);
-        if (IP.chars().filter(ch -> ch == '.').count() == 3) {
-            for (String s : ipv4)
-                if (isIPv4(s)) continue;
-                else return "INVALID";
+    public static String validIPAddress(String ipAddress) {
+        String[] ipv4 = ipAddress.split("\\.", -1);
+        if (ipAddress.chars().filter(ch -> ch == '.').count() == 3) {
+            for (String s : ipv4) {
+                if (!isIPv4(s)) return "INVALID";
+            }
             return "VALID";
         }
 
