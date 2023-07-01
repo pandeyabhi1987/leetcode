@@ -25,8 +25,6 @@ public class Subsets2 {
     public static void main(String[] args) {
         String[] a = {"1", "2", "15", "-7", "300"};
         Arrays.sort(a);
-        BlockingQueue q = new LinkedBlockingDeque();
-//        q.take();
         Subsets2 subsets = new Subsets2();
         int[] nums = {1, 2, 2};
         System.out.println(subsets.subsetsWithoutDup(nums));
@@ -35,7 +33,6 @@ public class Subsets2 {
     public List<List<Integer>> subsetsWithoutDup(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
-//        result.subList();
         backtrack(result, new ArrayList<>(), nums, 0);
         return result;
     }
