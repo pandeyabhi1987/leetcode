@@ -56,18 +56,21 @@ class DataStore<K, V> {
 
     public void set(K key, V value) {
         if (inTransaction) {
-            transactionMap.put(key, new Transaction(key, value, true));
-        } else {
-            committedMap.put(key, value);
+            transactionMap.put(key, new Transaction(key, value));
+            return;
         }
+        committedMap.put(key, value);
     }
 
     public void delete(K key) {
-        if (inTransaction) {
-            transactionMap.put(key, new Transaction(key, null, false));
-        } else {
-            committedMap.remove(key);
+        if (!committedMap.containsKey(key)) {
+            throw new RuntimeException("key not found : " + key);
         }
+        if (inTransaction) {
+            transactionMap.put(key, new Transaction(key, null));
+            return;
+        }
+        committedMap.remove(key);
     }
 
     public V get(K key) {
@@ -78,7 +81,7 @@ class DataStore<K, V> {
     }
 
     public void rollback() {
-        if (!inTransaction){
+        if (!inTransaction) {
             throw new RuntimeException("Nothing to rollback, not in transaction");
         }
         inTransaction = false;
@@ -86,13 +89,13 @@ class DataStore<K, V> {
     }
 
     public void commit() {
-        if (!inTransaction){
+        if (!inTransaction) {
             throw new RuntimeException("Nothing to commit, not in transaction");
         }
         if (transactionMap != null && !transactionMap.isEmpty()) {
             for (K key : transactionMap.keySet()) {
                 Transaction t = transactionMap.get(key);
-                if (t.upsert) {
+                if (t.value != null) {
                     committedMap.put(key, t.value);
                 } else {
                     committedMap.remove(key);
@@ -106,12 +109,10 @@ class DataStore<K, V> {
     class Transaction {
         public K key;
         public V value;
-        public boolean upsert;
 
-        public Transaction(K key, V value, boolean upsert) {
+        public Transaction(K key, V value) {
             this.key = key;
             this.value = value;
-            this.upsert = upsert;
         }
     }
 }

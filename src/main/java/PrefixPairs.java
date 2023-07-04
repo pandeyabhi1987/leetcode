@@ -43,7 +43,7 @@ public class PrefixPairs {
         String[] arr = {"back", "backdoor", "gammon", "backgammon"};
         List<String> input = Arrays.asList("back", "backdoor", "gammon", "backgammon" );
         PrefixPairs p = new PrefixPairs();
-//        System.out.println(p.prefixPairs(new A));
+        System.out.println(p.prefixPairs(arr));
 
     }
 }
