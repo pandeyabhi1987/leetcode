@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_leetcode_1690622259452-pr-trigger-input-set
+  identifier: Build_leetcode_1690622259452prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_leetcode_1690622259452
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
